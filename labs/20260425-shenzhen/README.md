@@ -7,6 +7,7 @@
 | 项目 | 内容 |
 |---|---|
 | **日期** | 2026 年 4 月 25 日（周六） |
+| **时长** | 1 小时 |
 | **地点** | 中国 · 深圳 |
 | **主办方** | OceanBase × 百度 AI Studio |
 | **面向对象** | 想把 OpenClaw 用在日常工作/生活中的产品经理、非技术用户；希望基于 OpenClaw 构建 Agent 的开发者 |
@@ -19,18 +20,15 @@
 1. 独立完成 ClawMaster 安装并把 **文心大模型（ERNIE）** 与 **智谱 GLM** 接入同一个 OpenClaw profile
 2. 在控制台中查看一次对话的 **tokens 用量与估算成本**
 3. 安装并启用至少一个**技能**（如 `ernie-image`、`paddleocr-doc-parsing`）
-4. 知道在哪里继续学习（本仓库 + ClawHub 市场 + 社区入口）
 
 ## 前置准备（到场前完成）
 
-- [ ] 笔记本（macOS 或 Windows 均可；Linux 欢迎但现场不保证调试）
-- [ ] **Node.js 22+ LTS**（`node -v` 应显示 v22 或更高；Node 20 本月进入 maintenance，不推荐新装）+ **npm 10+**（ClawMaster 通过 `npm i -g clawmaster@rc` 安装，Node 22 自带 npm 10）
+- [ ] 笔记本：**macOS 最佳**，Linux 其次；Windows 可跑但现场优先支持 macOS
+- [ ] **Node.js 22+ LTS**（`node -v` 应显示 v22 或更高；Node 20 本月进入 maintenance，不推荐新装）+ **npm 10+**（ClawMaster 通过 `npm i -g clawmaster` 安装，Node 22 自带 npm 10）
   - 推荐：用 [nvm](https://github.com/nvm-sh/nvm) 或 [fnm](https://github.com/Schniz/fnm) 管理多版本，避免污染系统 Node
-  - Windows 可直接装 [Node.js 22 LTS 官方安装包](https://nodejs.org/)；macOS 推荐 `brew install node@22` 或 `nvm install 22 && nvm use 22`
-- [ ] 提前注册并申领：
-  - [百度 AI Studio](https://aistudio.baidu.com/usercenter/token) 令牌（文心大模型，送 100 万 + 100 万 tokens）
-  - [智谱 BigModel](https://open.bigmodel.cn/) API Key（GLM 系列）
-- [ ] 确保本机能访问 `https://aistudio.baidu.com` 与 `https://open.bigmodel.cn`
+  - macOS 推荐 `brew install node@22` 或 `nvm install 22 && nvm use 22`；Windows 可直接装 [Node.js 22 LTS 官方安装包](https://nodejs.org/)
+- [ ] 提前全局安装：`npm i -g clawmaster`
+- [ ] 百度 AI Studio 令牌 **现场提供**（主办方统一发放，无需提前注册）；如已有自己的 key 也可直接带来使用
 
 ## 当天任务流
 
@@ -49,8 +47,6 @@
 - **主会场 Wi-Fi**：现场提供（SSID 会在签到台告知）
 - **仓库**：<https://github.com/openmaster-ai/clawmaster-workshop>（本仓库）
 - **主仓**：<https://github.com/openmaster-ai/clawmaster>
-- **Discord**：<https://discord.gg/openclaw>
-- **飞书群**：<https://openclaw.feishu.cn/community>
 
 ## 主办方致谢
 
