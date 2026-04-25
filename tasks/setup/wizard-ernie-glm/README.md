@@ -4,7 +4,7 @@
 **Time**: ~10 minutes
 **Level**: Beginner
 
-> Use the two-step setup wizard to detect OpenClaw, validate API keys for two Chinese LLM providers (Baidu ERNIE + Zhipu GLM), pick a default model, and land on the ClawMaster console.
+> Use the three-step setup wizard to detect OpenClaw, validate API keys for two Chinese LLM providers (Baidu ERNIE + Zhipu GLM), pick a default model, confirm the OpenClaw gateway is running, and land on the ClawMaster console.
 
 > 🌐 **This task was authored first in 中文** — the most detailed and screenshot-accurate version is **[README_CN.md](./README_CN.md)**. An English version will follow. 日本語版：[README_JP.md](./README_JP.md)
 
@@ -25,8 +25,9 @@
 5. Click **Custom (OpenAI Compatible)**, enter:
    - Base URL: `https://open.bigmodel.cn/api/paas/v4`
    - API Key: your Zhipu key
-6. Verify, type model ID (e.g. `glm-5.1`), click **Enter ClawMaster**
-7. You land on the dashboard with both providers configured
+6. Verify, type model ID (e.g. `glm-5.1`), click **Next Step**
+7. Gateway check: wizard probes `/api/gateway/status`. If stopped, click **Start Gateway**; once it turns green, click **Enter ClawMaster**
+8. You land on the dashboard with both providers configured
 
 ## Key frames
 
@@ -39,7 +40,10 @@
 ![](./images/04-ernie-models.png)
 *After a successful key probe, the wizard dynamically loads the provider's model catalog.*
 
+![](./images/09-gateway-stopped.png)
+*Step 3: gateway check. If OpenClaw isn't running on 18789, the wizard offers a one-click **Start Gateway** before letting you enter the console.*
+
 ![](./images/10-complete.png)
-*Final step: GLM filled, model ID entered, ready to finish.*
+*Gateway is green — click **Enter ClawMaster** to land on the dashboard.*
 
 See [README_CN.md](./README_CN.md) for the full walkthrough with all 10 key frames, troubleshooting, and verification commands.

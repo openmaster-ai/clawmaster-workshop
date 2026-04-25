@@ -50,9 +50,17 @@ next:        Ctrl+C to stop
 
 浏览器会**自动打开**那个带 `?token=` 的链接，落到**设置向导**第一步 — 这也就是 [动手 1](../../tasks/setup/wizard-ernie-glm/README_CN.md) 的起点。
 
-**如果浏览器没自动弹**（Linux 无 `xdg-open` / 跑在 SSH / 带 `--silent`）：
-- 手动把终端打印的 `web console:` 那一整条 URL（含 token）粘到浏览器即可
-- token 会写到 `~/.clawmaster/service/service-state.json`，丢了可 `cat` 那个文件找回
+**直达向导的 deeplink** — 就是 `web console:` 那一整条 URL：
+
+```
+http://127.0.0.1:16223/?token=<48位>
+```
+
+- 只要本机 `~/.openclaw/openclaw.json` 还没配过 provider，打开这个链接会**自动落在向导**（引擎检测 → 模型 → 网关），配完直接进控制台
+- 已经配过的机器想重跑向导：`mv ~/.openclaw/openclaw.json ~/.openclaw/openclaw.json.bak`，刷新页面即可
+- token 丢了就 `cat ~/.clawmaster/service/service-state.json`（`url` 字段就是完整 deeplink；`clawmaster status` 只打印不带 token 的 base URL）
+
+**如果浏览器没自动弹**（Linux 无 `xdg-open` / 跑在 SSH / 带 `--silent`），把上面那条 URL 粘到浏览器就行。
 
 **排错小抄**（终端不出 ready 块）：
 
