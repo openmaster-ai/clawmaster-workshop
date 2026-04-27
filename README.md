@@ -51,7 +51,10 @@ Lab 只提供**举办地所在地区的语言**版本 `README.md`（如深圳场
 ### ⑤ Build（构建）
 - [ernie-image-illustrated-article](./tasks/build/ernie-image-illustrated-article/README_CN.md) — 启用 `content-draft` + `ernie-image`，把 LangChain DeepAgents 文档转成带配图的公众号草稿
 
-### ④ Apply / ⑥ Guard
+### ⑥ Guard（安全）
+- [skillguard-scan-compare](./tasks/guard/skillguard-scan-compare/README_CN.md) — 在技能页分别扫一条干净（`linkedin-content` · A）和一条有风险（`baoyu-url-to-markdown` · C · 7 findings）的技能，看 SkillGuard 看的是什么
+
+### ④ Apply
 即将上线，随着 Lab 活动陆续沉淀。
 
 ## 贡献新任务
