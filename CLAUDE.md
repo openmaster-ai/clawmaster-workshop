@@ -18,7 +18,7 @@ tasks/<capability>/<slug>/  # reusable walkthroughs, grouped by the 6 core capab
 ## Naming
 
 - **Lab folder**: `YYYYMMDD-location` — no dashes inside the date prefix. Example: `20260425-shenzhen` (not `2026-04-25-shenzhen`).
-- **Task slug**: scenario-descriptive, not sequential. Example: `wizard-ernie-glm`, `cron-cost-digest-1min` (not `task-01`).
+- **Task slug**: scenario-descriptive, not sequential. Example: `wizard-ernie-glm`, `cron-cost-digest` (not `task-01`).
 
 ## i18n policy
 

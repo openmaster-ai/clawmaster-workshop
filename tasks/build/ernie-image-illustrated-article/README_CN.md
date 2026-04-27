@@ -124,5 +124,5 @@ Observe 页能看到主对话 + ernie-image 调用的两条 ClawProbe trace。
 
 ## 下一步
 
-- Observe：给这次 run 配 cron 做每日成本摘要 → [cron-cost-digest-1min](../../observe/cron-cost-digest-1min/README_CN.md)
+- Observe：给这次 run 配 cron 做每日成本摘要 → [cron-cost-digest](../../observe/cron-cost-digest/README_CN.md)
 - Save：把「中文技术公众号风格」写进 PowerMem，下次 `memory_recall` 自动套用
