@@ -215,5 +215,5 @@ openclaw plugins install --link --dangerously-force-unsafe-install \
 ## 下一步
 
 - Build：让 `content-draft` 的 `memory_recall` 命中你刚迁移的"写作偏好"，生成的草稿自动按风格套板
-- Observe：看看 agent 会话的 token 消耗怎么随 `memory_recall` 命中增长 → [cron-cost-digest-1min](../../observe/cron-cost-digest-1min/README_CN.md)
+- Observe：看看 agent 会话的 token 消耗怎么随 `memory_recall` 命中增长 → [cron-cost-digest](../../observe/cron-cost-digest/README_CN.md)
 - Save 续作：给不同的 agent / user id 分区存记忆，观察 PowerMem 按 scope 隔离召回结果

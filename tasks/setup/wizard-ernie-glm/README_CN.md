@@ -127,6 +127,6 @@ jq '.models.providers | keys, .agents.defaults.model.primary' ~/.openclaw/opencl
 
 ## 下一步
 
-- Observe：给刚配好的模型观察 tokens + cost → [cron-cost-digest-1min](../../observe/cron-cost-digest-1min/README_CN.md)
+- Observe：给刚配好的模型观察 tokens + cost → [cron-cost-digest](../../observe/cron-cost-digest/README_CN.md)
 - Build：安装 `ernie-image` + `content-draft` 做带图文章 → [ernie-image-illustrated-article](../../build/ernie-image-illustrated-article/README_CN.md)
 - Save：启用 PowerMem 沉淀长期记忆

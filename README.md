@@ -43,7 +43,7 @@ Lab 只提供**举办地所在地区的语言**版本 `README.md`（如深圳场
 - [wizard-ernie-glm](./tasks/setup/wizard-ernie-glm/README_CN.md) — 通过设置向导配置 ERNIE + GLM，选定默认模型
 
 ### ② Observe（可观测）
-- [cron-cost-digest-1min](./tasks/observe/cron-cost-digest-1min/README_CN.md) — 启用 Observe 模块并用单次定时任务在 1 分钟后抓一次 ClawProbe 成本摘要
+- [cron-cost-digest](./tasks/observe/cron-cost-digest/README_CN.md) — 装好 ClawProbe，用可观测页「日报摘要」模板一键生成成本摘要 cron，**立即运行** 看闭环
 
 ### ③ Save（记忆）
 - [powermem-takeover-file-memory](./tasks/save/powermem-takeover-file-memory/README_CN.md) — 让 PowerMem 接管 OpenClaw 的文件式记忆：同步桥接 → 一键导入 `MEMORY.md` → 语义召回对比
