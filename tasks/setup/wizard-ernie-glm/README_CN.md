@@ -24,11 +24,13 @@ npm i -g clawmaster@rc && clawmaster
 
 ## 第 1 步：引擎检测
 
-![引擎检测](./images/01-engine-detecting.png)
+![核心引擎未安装](./images/00-engine-not-installed.png)
 
-向导首屏自动检测 OpenClaw：已安装直接进下一步；未安装会出现「安装核心引擎」按钮，点一下走 npm 全局安装。
+全新机器下，向导首屏检测到 OpenClaw 不存在 → 出现「安装核心引擎」按钮。勾「使用 npm 镜像」可走 npmmirror.com 加速下载。
 
-> 💡 纯体验演示可加 `?demo=install`。
+![下载与安装中](./images/01-engine-installing.png)
+
+点一下按钮，向导直接跑 `npm install -g openclaw`：解析依赖 → 下载 → 安装 → 链接命令行。装完自动重测并进入下一步。
 
 ---
 
