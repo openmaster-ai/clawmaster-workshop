@@ -31,8 +31,11 @@
 
 ## Key frames
 
-![](./images/01-engine-detecting.png)
-*Engine detection — the wizard checks for a local OpenClaw install.*
+![](./images/00-engine-not-installed.png)
+*Fresh machine: wizard detected no OpenClaw — the "Install Core Engine" button appears.*
+
+![](./images/01-engine-installing.png)
+*One click runs `npm install -g openclaw` live — resolve → download → install → link.*
 
 ![](./images/02-provider-tiers.png)
 *Tiered provider picker. ERNIE sits in the golden-sponsor tier; GLM is reached via Custom (OpenAI Compatible) in the bottom tier.*

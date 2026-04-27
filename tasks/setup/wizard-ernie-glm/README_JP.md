@@ -31,8 +31,11 @@
 
 ## キーフレーム
 
-![](./images/01-engine-detecting.png)
-*エンジン検出 — ローカル OpenClaw インストールを確認。*
+![](./images/00-engine-not-installed.png)
+*まっさらな環境：ウィザードが OpenClaw を検出できず「核心引擎安装」ボタンが出る。*
+
+![](./images/01-engine-installing.png)
+*クリック一発で `npm install -g openclaw` がそのまま走る — 解決 → ダウンロード → インストール → リンク。*
 
 ![](./images/02-provider-tiers.png)
 *階層化された Provider ピッカー。ERNIE はゴールド スポンサー層、GLM は最下層の Custom (OpenAI Compatible) から接続。*
