@@ -11,9 +11,9 @@
 ## TL;DR
 
 1. Left nav → **Skills**. Filter to `linkedin-content`, click **Scan**. Wait ~30–60s (first run pulls `@clawmaster/skillguard-cli` from npm). Panel shows **A · no findings · score 0**.
-2. Filter to `baoyu-url-to-markdown`, click **Scan**. Panel turns amber: **C · 7 findings · HIGH 2 · score 42**.
-3. Click **View details** on the risky panel. Drawer shows four summary tiles, the top 3 findings with file paths + line numbers + Chinese/English remediation text, and a right sidebar with the exact severity breakdown (`Critical 0 · High 2 · MEDIUM 4`).
-4. Run the CLI for the full 7-finding list: `npm exec --yes @clawmaster/skillguard-cli -- ~/.openclaw/skills/baoyu-url-to-markdown --json`.
+2. Click **View details** on the A-grade panel — same drawer component, but the four summary tiles read `A · Safe / score 0 / findings 0 / top severity LOW` (baseline placeholder, not a real LOW finding), the main panel renders a green **No findings** badge, and the right sidebar shows `Critical 0 · High 0`. Knowing what A looks like in detail is half the comparison.
+3. Filter to `baoyu-url-to-markdown`, click **Scan**. Panel turns amber: **C · 7 findings · HIGH 2 · score 42**. Click **View details** — same drawer, but now the findings list has three MEDIUM `innerHTML =` entries with file paths + line numbers + Chinese/English remediation, and the sidebar shows `Critical 0 · High 2 · MEDIUM 4`.
+4. Run the CLI for the full 7-finding list (the drawer only renders top 3): `npm exec --yes @clawmaster/skillguard-cli -- ~/.openclaw/skills/baoyu-url-to-markdown --json`.
 
 ## Why these two
 

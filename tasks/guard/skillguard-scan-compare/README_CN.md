@@ -19,7 +19,7 @@
 
 ## 第 1 步：扫「干净」样本 `linkedin-content`
 
-左侧导航 → **技能**。过滤栏里敲 `linkedin-content`，定位到它的卡片，点右上 **扫描**：
+左侧导航 → **技能**。过滤栏里敲 `linkedin-content`，定位到它的卡片，点右上 **扫描**（首轮要拉 `@clawmaster/skillguard-cli`，30~60 秒）：
 
 ![linkedin-content 扫描结果：A · 未发现问题 · 安全分 0](./images/01-scan-clean.png)
 
@@ -30,12 +30,19 @@
 - **安全等级** `A · 安全`
 - 右下角时间戳 + 技能名 `linkedin-content`
 
+点 **查看详情** 展开 drawer，确认 A 级长什么样：
+
+![drawer：A 级 · 问题数 0 · 未发现问题 · 严重度分布全 0](./images/04-drawer-safe.png)
+
+drawer 顶部的 4 张汇总卡有对比价值：`安全等级 A · 安全`、`安全分 0 · 安全`、`问题数 0`、`最高严重度 低危`（这里「低危」是 **基线占位**，并不是真有 LOW finding——`主要发现` 区直接显示 **未发现问题** 的绿色徽标）。右侧 sidebar：`严重 0 · 高危 0`、技能绝对路径 `/Users/zhl/.openclaw/skills/linkedin-content`、扫描时间。
+
 没有 findings 意味着：
+
 - 代码里没出现 `child_process` / `eval` / `new Function` 之类动态执行
 - 没有 `innerHTML =` 这种 DOM-XSS 常见 pattern
-- SKILL.md frontmatter 里 **声明了 `allowed-tools`**（按最小权限原则列出这个 skill 会调用的工具）
+- SKILL.md frontmatter 要么 **声明了 `allowed-tools`**（按最小权限原则列出这个 skill 会调用的工具），要么这条 skill 只是写作风格指南、压根没有 agent tool 交互
 
-这就是把一个 skill 挂进 agent 默认可用列表之前想看到的状态。
+这就是把一个 skill 挂进 agent 默认可用列表之前想看到的状态——关掉 drawer 进第 2 步做对比。
 
 ---
 
@@ -58,16 +65,18 @@
 
 ---
 
-## 第 3 步：看详情 drawer
+## 第 3 步：看 C 级详情 drawer
+
+点 **查看详情**，打开同一个 drawer 组件，内容完全不一样：
 
 ![drawer：4 张汇总卡 + 具体 findings + 右侧严重度分布](./images/03-drawer-findings.png)
 
-**顶部 4 张卡**：
+**顶部 4 张卡**（和第 1 步一一对应）：
 
-- 安全等级 `C · 警告`
-- 安全分 `42 · 警告`
-- 问题数 `7`
-- 最高严重度 `高危 2`
+- 安全等级 `C · 警告`（vs `A · 安全`）
+- 安全分 `42 · 警告`（vs `0 · 安全`）
+- 问题数 `7`（vs `0`）
+- 最高严重度 `高危 2`（vs `低危` 基线）
 
 **主要发现** 区展示 top 3（按文件顺序），每条带：
 

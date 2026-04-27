@@ -9,9 +9,9 @@
 ## TL;DR
 
 1. 左ナビ → **技能**。フィルタに `linkedin-content` → **扫描** をクリック。初回は npm から `@clawmaster/skillguard-cli` を取得するので 30〜60 秒かかる。完了すると **A · 未発見問題 · 安全分 0**
-2. フィルタを `baoyu-url-to-markdown` に変え **扫描**。パネルがアンバーに：**C · 問題数 7 · 高危 2 · 安全分 42**
-3. リスクパネルの **查看详情** をクリック。全幅 drawer にサマリ 4 カード・top 3 findings（ファイルパス + 行番号 + 修复建议）・右サイドバーの重大度分布（`严重 0 · 高危 2 · MEDIUM 4`）が表示
-4. 全 7 件を見たい場合は CLI：`npm exec --yes @clawmaster/skillguard-cli -- ~/.openclaw/skills/baoyu-url-to-markdown --json`
+2. A パネルの **查看详情** をクリック — 同じ drawer コンポーネントで 4 サマリタイルは `A · 安全 / 安全分 0 / 問題数 0 / 最高重大度 低危`（「低危」は基準プレースホルダで実際の LOW finding ではない）、本体は緑の **未発見問題** バッジ、右サイドバーは `严重 0 · 高危 0`。A がどう見えるかを覚えておくのが比較の前提
+3. フィルタを `baoyu-url-to-markdown` に変え **扫描** → アンバーに：**C · 問題数 7 · 高危 2 · 安全分 42**。**查看详情** で同じ drawer を開くと、主要发现 エリアに MEDIUM `innerHTML =` が 3 件（ファイルパス + 行番号 + 中英両言語の修复建议）、右サイドバーは `严重 0 · 高危 2 · MEDIUM 4`
+4. 全 7 件（drawer は top 3 のみ表示）を見たい場合は CLI：`npm exec --yes @clawmaster/skillguard-cli -- ~/.openclaw/skills/baoyu-url-to-markdown --json`
 
 ## なぜこの 2 つか
 
