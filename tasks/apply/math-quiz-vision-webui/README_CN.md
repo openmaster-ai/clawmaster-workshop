@@ -2,14 +2,14 @@
 
 **能力域**：Apply · **用时**：~12 min · **难度**：入门+（需先做 [wizard-ernie-glm](../../setup/wizard-ernie-glm/README_CN.md)）
 
-> 在 ClawMaster **可观测 · 概览** 页点右上角 **打开 OpenClaw WebUI** 跳到 OpenClaw 自带的聊天 UI。配好 **PaddleOCR 文档解析** 能力后，把一张手写数学题的照片（先拿 `ernie-image` 技能生成一张）放到工作区，agent 会自己 read 技能说明、exec 跑 PaddleOCR 脚本、拿到 markdown 后再把每题的正确答案返回。整个流程在 WebUI 里一气呵成。
+> 在 ClawMaster **可观测 · 概览** 页点右上角 **打开 OpenClaw WebUI**。配好 **PaddleOCR 文档解析** 之后，把一张手写数学题的照片（先拿 `ernie-image` 技能生成）扔进工作区，然后像日常问人一样问一句「OCR 一下 workspace/images 里的数学题并给出答案」——agent 会自己从技能目录里找到 `paddleocr-doc-parsing`，调脚本、拿 markdown、给答案。这一环验证「skill 在 agent 提示词里被看到 → 被正确选用」的链路。
 
 > 🌐 English：[README.md](./README.md) · 日本語：[README_JP.md](./README_JP.md)
 
 ## 前置条件
 
 1. 已完成 [wizard-ernie-glm](../../setup/wizard-ernie-glm/README_CN.md)：ClawMaster 跑在 <http://localhost:16223>，网关在跑，至少 1 个文本模型可用
-2. **Baidu AI Studio 账号 + 已部署的 PaddleOCR 在线服务**。进入 <https://aistudio.baidu.com/paddleocr/task>，新建任务 → 选 PaddleOCR-VL 或 layout-parsing → 部署。拿两样东西：
+2. **Baidu AI Studio 账号 + 已部署的 PaddleOCR 在线服务**。进入 <https://aistudio.baidu.com/paddleocr/task>，新建任务 → 选 layout-parsing → 部署。拿两样东西：
    - **Endpoint**：形如 `https://ice5k4j4zbr32awb.aistudio-app.com/layout-parsing`
    - **Token**：AI Studio 个人中心的访问令牌
 3. 能正常跑 `ernie-image` 技能（前一步的 wizard 会把百度 AI Studio 接进来）
@@ -57,7 +57,7 @@ ClawMaster 左侧导航 → **概览**。右上角就是 **打开 OpenClaw WebUI
 
 ## 第 3 步：拿 `ernie-image` 生成一张手写数学题
 
-不想去拍真纸也行——ClawMaster 附带的 `ernie-image` 技能就能生成。最直接：跑个 API 调用（workshop 时在 Claude Code 里 `ernie-image` 技能会自动帮你选参数和调用）：
+不想去拍真纸也行——ClawMaster 附带的 `ernie-image` 技能就能生成。最直接的 API 调用（workshop 时在 Claude Code 里让 `ernie-image` 技能自动处理）：
 
 ```bash
 curl -sS -X POST https://aistudio.baidu.com/llm/lmapi/v3/images/generations \
@@ -68,105 +68,101 @@ curl -sS -X POST https://aistudio.baidu.com/llm/lmapi/v3/images/generations \
     "prompt": "真实照片，白色作业本纸用黑色签字笔手写小学三年级数学四则运算题目，4 道，题号 1-4 逐行书写：1) 23 + 47 =  2) 105 - 68 =  3) 14 × 6 =  4) 144 ÷ 8 =。题目右侧留空格让学生填答案。照片光线自然。",
     "n": 1, "response_format": "b64_json", "size": "1024x1024"
   }' | jq -r '.data[0].b64_json' | base64 -d \
-  > ~/.openclaw/workspace/images/math-quiz.png
+  > ~/.openclaw/workspace/images/math-quiz-1.png
 ```
 
 得到一张像真拍的手写题：
 
 ![ernie-image 生成的四道手写算术题](./images/04-quiz-arithmetic.png)
 
-放进 `~/.openclaw/workspace/images/` 目录——这是 OpenClaw agent 默认 `cwd` 下的工作区路径，后面 agent 直接引用绝对路径就行。
+放进 `~/.openclaw/workspace/images/` 目录——这是 OpenClaw agent 默认 `cwd` 下的工作区路径，之后说「workspace/images 里的图」就找得到。
 
 ---
 
-## 第 4 步：回 WebUI，让 agent 跑完整流程
+## 第 4 步：回 WebUI，像问人一样问
 
-回到前面打开的 OpenClaw WebUI 标签页。左上角新建一个 session（URL 里改 `&session=agent:main:workshop-math`，或者直接点 **+** 按钮），模型保持 **Default (DeepSeek V3)**——OCR 和算术都不需要 VL 模型，文本模型足够。
+回到前面打开的 OpenClaw WebUI 标签页。URL 里把 `session` 改成 `agent:main:apply-arith`（或任意唯一 key）开一条新会话。模型保持 **Default**（DeepSeek-V3 / qianfan-code-latest 这类纯文本模型都行——OCR 和解算术都不需要 VL 模型）。
 
-在底部输入框敲：
+底部输入框敲一句自然的话：
 
-![WebUI 提示词：引用技能 + 图片路径](./images/05-webui-prompt-arithmetic.png)
-
-```
-我放了一张小学数学作业照片在 /Users/zhl/.openclaw/workspace/images/math-quiz.png。
-请先 read ~/.openclaw/workspace/skills/paddleocr-doc-parsing/SKILL.md 了解用法，
-再用 exec 运行 parse-document.mjs 把图片转成 markdown，最后给出每道题的正确答案。
-```
-
-> ⚠️ 提示词里写得越显式越好。如果只说「解一下这张图」，agent 会因为 `read` 工具不会做 vision 而卡住。把 read SKILL + exec 脚本这两步点破，agent 就会按 skill 文档的 workflow 往下走。
-
-**回车。** 前后大约 60~90 秒，agent 会依次产出：
-
-![三对 tool call / tool output 气泡：read SKILL.md → read config → exec parse-document.mjs](./images/07-webui-tool-calls.png)
-
-1. **Tool call: read** — 读 `paddleocr-doc-parsing/SKILL.md` 里的 workflow
-2. **Tool output: read** — SKILL.md 全文（含脚本路径 + 预设说明）
-3. **Tool call: exec** — 跑 `node .../parse-document.mjs /Users/zhl/.openclaw/workspace/images/math-quiz.png --preset mobile-scan`
-4. **Tool output: exec** — PaddleOCR 返回的 markdown，里面已经把 4 道题识别成 `1) $23 + 47 =$ / 2) $105 - 68 =$ / 3) $14 \times 6 =$ / 4) $144 \div 8 =$`
-
-最后一条 Assistant 消息就是给家长/学生的答案：
-
-![WebUI 最终答案：70 / 37 / 84 / 18，每题逐一列出](./images/06-webui-answer-arithmetic.png)
+![WebUI 输入一句简短 OCR 请求，无需写技能名或脚本路径](./images/05-webui-prompt-arithmetic.png)
 
 ```
-题目：
-1. 23 + 47 =      2. 105 - 68 =      3. 14 × 6 =      4. 144 ÷ 8 =
-正确答案：
-1. 70             2. 37              3. 84            4. 18
+OCR 一下 workspace/images 里的数学题并给出正确答案。
 ```
 
-`↑32.2k / ↓122` 说明这次 agent 对话消耗了 32.2k input token（其中大头是 PaddleOCR 返回的 markdown 喂回模型），生成 122 output token。
+**关键点**：这里不告诉 agent 用哪个技能、哪条命令、哪个路径。只要 `paddleocr-doc-parsing` 在技能列表里可见（第 2 步的 `skills.entries.<skill>.enabled = true`），agent 会自己从技能 `description` 字段里匹配到「OCR this image」「parse this scan into markdown」，然后按 SKILL.md 的 workflow 执行。
+
+**回车。** 约 60~90 秒，agent 在 WebUI 里可见地走完这串动作：
+
+![tool call 气泡：列目录 → exec PaddleOCR 脚本 → 正确答案](./images/07-webui-tool-calls.png)
+
+1. **Tool call: exec** — `ls -la workspace/images` 找到 `math-quiz-1.png`
+2. **Tool call: exec** — 直接跑 `node ~/.openclaw/workspace/skills/paddleocr-doc-parsing/scripts/parse-document.mjs ~/.openclaw/workspace/images/math-quiz-1.png`（skill 已经被 agent 认出来，省了单独 read SKILL.md 这一步）
+3. **Tool output** — PaddleOCR 返回 markdown，4 道题整整齐齐识别成 `1) $ 23 + 47 = $ / 2) $ 105 - 68 = $ / 3) $ 14 × 6 = $ / 4) $ 144 ÷ 8 = $`
+
+然后直接给答案：
+
+![WebUI 最终答案：70 / 37 / 84 / 18](./images/06-webui-answer-arithmetic.png)
+
+```
+答案：
+1. 23 + 47 = 70
+2. 105 - 68 = 37
+3. 14 × 6 = 84
+4. 144 ÷ 8 = 18
+```
+
+`↑29.5k / ↓279` 是 tool 轮次的 token（大头来自 PaddleOCR markdown 回传），`↑15.4k / ↓79` 是 Assistant 轮次。**没有一行提示词涉及 OCR 脚本、skill 路径、OCR 参数——但 agent 把这些细节全打理了**。这就是「skill 被正确安装并在 prompt 里可见」的验证：让 agent 自己找到、自己调、自己解释。
 
 ---
 
 ## 第 5 步：换一题——初中二次函数
 
-PaddleOCR 跟 OCR 里的 `$$` 标记是能识别数学符号的，但算不等于解题。agent 负责把「识别出来的题目」代入标准解法。来一道更复杂的：
-
-再用 `ernie-image` 生成一张（prompt 换成「初中二次函数 y = x² - 4x + 3，(1) 求顶点坐标 (2) 求 x=5 时 y 的值」），存到 `~/.openclaw/workspace/images/math-quiz-2.png`：
+同一条链路，换个更复杂的样本：初中应用题。再用 `ernie-image` 生成一张（prompt 里换成「已知二次函数 y = x² - 4x + 3, (1) 求顶点坐标 (2) 求 x=5 时 y 的值」），存到 `~/.openclaw/workspace/images/math-quiz-2.png`：
 
 ![ernie-image 生成的二次函数应用题](./images/08-quiz-quadratic.png)
 
-WebUI 里再开一条 session（`&session=agent:main:workshop-math-quad`），发：
+WebUI 里再开一条 session（`agent:main:apply-quad`），发一句同样简短的话：
 
 ```
-我把一张初中数学应用题照片放在 /Users/zhl/.openclaw/workspace/images/math-quiz-2.png。
-请使用 paddleocr-doc-parsing 技能识别图片里的题目（先 read 技能说明，
-再用 exec 跑 parse-document.mjs，--preset mobile-scan 适合手写稿），
-然后分步骤解答每一小问。
+看一眼 workspace/images 里的数学题图片，告诉我答案。
 ```
 
-agent 这次会多走一步 `read` 预设指引，exec 调 OCR，拿到 markdown，然后分步骤解答两小问：
+agent 一样先 `exec ls` → `exec parse-document.mjs` → 把 markdown 翻译成数学步骤：
 
 ![WebUI 二次函数答案：顶点 (2,-1)、x=5 时 y=8，含 LaTeX 推导](./images/09-webui-answer-quadratic.png)
 
 ```
-(1) 求顶点坐标
-  a=1, b=-4, c=3
-  x = -b/(2a) = 2
+(1) 顶点坐标
+  a = 1, b = -4, c = 3
+  x = -b / (2a) = 2
   y = 2² - 4·2 + 3 = -1
-  顶点坐标：(2, -1)
+  顶点：(2, -1)
 
-(2) 求 x = 5 时 y 的值
-  y = 5² - 4·5 + 3 = 25 - 20 + 3 = 8
-  结果：y = 8
+(2) x = 5 时 y
+  y = 5² - 4·5 + 3 = 8
+  答案：y = 8
 ```
 
-对比第一题主要变化：
+对比两题：
 
-- PaddleOCR 的 markdown 里会把 `y = x² - 4x + 3` 识别成 `y = x^{2} - 4x + 3`（标准 LaTeX）
-- agent 用的是 DeepSeek-V3 的推理能力，不需要 vision 模型
-- 输出长度 `↓334` 明显比算术题长，因为要铺开步骤
+| 维度 | 算术题 | 二次函数 |
+|---|---|---|
+| OCR 难度 | 四则运算，`×`/`÷` 符号 | `x²` 指数 + `(2, -1)` 坐标 + `y=5` 函数值 |
+| OCR 输出 | `1) $ 23 + 47 = $ ...` | `y = x^{2} - 4x + 3`（标准 LaTeX）|
+| 解答侧 | 4 次四则运算 | 顶点公式 + 代入 + 两小问分步 |
+| 所需模型 | 纯文本模型 | 纯文本模型（OCR 已经把 `x²` 结构化）|
 
-这就是这条 Apply 链路的真正价值：**OCR 把「图」转成「结构化文本」，文本模型才能干自己擅长的事**。
+OCR 把「图」转成「结构化 LaTeX 文本」，文本模型就能干自己擅长的事——**这条链路的价值在于把 vision 的不稳定性挡在 OCR 这一环，而不是交给最后解题的 LLM**。
 
 ---
 
 ## 第 6 步：回看这次跑用了什么 token
 
-如果装了 ClawProbe（参考 [cron-cost-digest](../../observe/cron-cost-digest/README_CN.md)），直接去可观测页看 **最新会话** 卡：刚才 `agent:main:workshop-math-quad` 这条应该排在最上面，看得到本次 session 的 ↑ 输入 token、↓ 输出 token、模型名、USD 估值。
+装了 ClawProbe（参考 [cron-cost-digest](../../observe/cron-cost-digest/README_CN.md)）的话，回可观测页看 **最新会话** 卡：`agent:main:apply-quad` 这条会排在最上面，看得到 ↑ 输入 token、↓ 输出 token、模型名、USD 估值。
 
-当 OCR 这条链路接进定时成本摘要（每天 08:00 那条 cron），就能知道「生成图像 + OCR + 解题」一个月会花多少——工作坊之后接 Feishu/iMessage 渠道做「拍张题照片、bot 给答案」时，成本是可量化的。
+如果 OCR 这条链路接进定时成本摘要，就能知道「生成图像 + OCR + 解题」一个月花多少——后面接 Feishu/iMessage 渠道做「拍张题照片、bot 给答案」时，成本是可量化的。
 
 ---
 
@@ -183,7 +179,7 @@ jq '.ocr.providers.paddleocr | {endpoint, hasToken: (.accessToken | length > 0)}
 # 3) 不用 agent，直接跑技能脚本对一下结果
 SKILL_DIR=~/.openclaw/workspace/skills/paddleocr-doc-parsing
 node $SKILL_DIR/scripts/parse-document.mjs \
-  ~/.openclaw/workspace/images/math-quiz.png \
+  ~/.openclaw/workspace/images/math-quiz-1.png \
   --preset mobile-scan --markdown-out /tmp/math-quiz.md
 cat /tmp/math-quiz.md
 
@@ -199,7 +195,11 @@ openclaw cron list 2>&1 | head -2                     # 不该报 pairing requir
 
 ## 常见问题
 
-**Q：agent 回「图片无法直接查看或解析」就停下了** → 提示词没让它显式走 skill。OpenClaw 的 `read` 工具不做 vision；把「先 read SKILL.md，再 exec parse-document.mjs」写进提示词，或者在 `~/.openclaw/openclaw.json` 的 `agents.defaults.systemPrompt` 里默认挂上 PaddleOCR 使用规约。
+**Q：agent 没调 OCR 技能，直接看图给了个错答案** → 两种可能：
+1. **记忆污染**：如果上下文里带了老的会话记忆（比如之前试错过「PaddleOCR 未配置」），agent 会跳过 OCR 去瞎猜。用一个全新的 session key，或者先清一下 `powermem` 里相关的干扰记忆。
+2. **技能没被识别**：`paddleocr-doc-parsing` 可能没 enable。去 ClawMaster **技能** 页手动启用，或 `openclaw config set skills.entries.paddleocr-doc-parsing.enabled true`。
+
+如果上面都排除了还不调用，把提示词改得更明示：`使用 paddleocr-doc-parsing 技能识别 workspace/images 里的图片并给出答案`——直接点名 skill。
 
 **Q：`openclaw cron list` 报 `Unrecognized key: "ocr"`** → 旧版 CLI 不认识 ClawMaster 写的 `ocr` key。升级：`npm i -g openclaw@latest`。暂不升级的话，用环境变量跑网关：`PADDLEOCR_ENDPOINT=<url> PADDLEOCR_TOKEN=<token> openclaw gateway run --bind loopback`，技能脚本会从 `process.env` 读。
 
@@ -207,9 +207,13 @@ openclaw cron list 2>&1 | head -2                     # 不该报 pairing requir
 
 **Q：AI Studio 部署的 PaddleOCR 要钱吗** → AI Studio 账号注册送一份免费额度，`layout-parsing` 是按请求次数计费（~0.01 CNY/次，手写 A4 稿一页一次就够）。workshop 规模（20 人 × 3 题）基本在免费额度内。
 
-**Q：能不能跳过 PaddleOCR，直接让 VL 模型（Qwen3-VL / GLM-4V）看图** → 能，也是一条可行路线。但目前 OpenClaw WebUI 的 **图片上传** 框会把图片写到 `~/.openclaw/workspace/images/` 然后通过 agent 的 `read` 工具引用，而 `read` 只读文本，VL 模型拿不到图像二进制——所以 WebUI 的原生图片附件目前不等于多模态输入。走 OCR 链路反而更稳、更便宜。
+**Q：为什么不直接在 WebUI 上传图片让 VL 模型看图** → 能，但不稳：
+- OpenClaw WebUI 的图片附件目前走 agent 的 `read` 工具传回 multimodal content，VL 模型拿到的图像在我们的测试里 **经常性地幻觉**（能看见图，但答案无中生有）
+- 走 OCR 链路反而更稳、更便宜——OCR 先把图转成 LaTeX 文本，文本模型再推理，幻觉空间小很多
 
-**Q：agent 跑到第 3 遍了还在读 SKILL.md** → 上下文里带的旧消息把 agent 绕进去了。新建 session（URL `&session=agent:main:<fresh-key>`），或者把提示词里的「先 read、再 exec」改成「你已经读过 SKILL.md，直接 exec `parse-document.mjs /path/to/image.png --preset mobile-scan`」。
+这也是为什么 Apply 章节把 OCR 作为主线：它是「把不可靠的视觉输入挡住的那层」。
+
+**Q：agent 跑到第 3 遍了还在读 SKILL.md** → 上下文里有旧消息把它绕进去了。新建 session（URL `&session=agent:main:<fresh-key>`），或者提示词里加一句「你已经知道 paddleocr-doc-parsing 怎么用，直接 exec 脚本就行」。
 
 ---
 
@@ -218,4 +222,4 @@ openclaw cron list 2>&1 | head -2                     # 不该报 pairing requir
 - **接渠道**：配 Feishu 机器人后，把 `agent:channel:feishu:<group>` 作为 session key，用户把照片发群里 bot 回答案。参考 [wizard-ernie-glm](../../setup/wizard-ernie-glm/README_CN.md) 的渠道配置
 - **多语种**：prompt 加一句「答案用英文或日文返回」，DeepSeek-V3 直接切换，OCR 不受影响
 - **PDF 批量**：`parse-document.mjs` 默认 `--file-type image`，PDF 要显式加 `--file-type pdf`，适合整本试卷扫描件
-- **SkillGuard 复核**：在 [skillguard-scan-compare](../../guard/skillguard-scan-compare/README_CN.md) 里扫一下刚装的 `paddleocr-doc-parsing`，看它跟 `baoyu-url-to-markdown` 一样属于「浏览器自动化/脚本 exec」类——但它有正当的 skill 模板声明，`allowed-tools` 也能补上
+- **SkillGuard 复核**：在 [skillguard-scan-compare](../../guard/skillguard-scan-compare/README_CN.md) 里扫一下刚装的 `paddleocr-doc-parsing`，确认它不会在提示词注入或权限最小化上踩坑

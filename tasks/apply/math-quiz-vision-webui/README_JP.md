@@ -10,11 +10,11 @@
 
 1. ClawMaster → **概览** → 右上 **OpenClaw WebUI を開く**。新しいタブで `http://127.0.0.1:18789/?token=...` に着地 — これが OpenClaw 純正チャット
 2. ClawMaster → **OCR** ページで、Baidu AI Studio にデプロイ済みの PaddleOCR エンドポイント（`https://…aistudio-app.com/layout-parsing`）と AI Studio トークンを貼り付け、**保存并启用 OCR** をクリック。裏で `ocr.providers.paddleocr` が書き込まれ、同梱の `paddleocr-doc-parsing` スキルが `~/.openclaw/workspace/skills/` に link され、`skills.entries.paddleocr-doc-parsing.enabled = true` になる
-3. `ernie-image` で手書き風の数学問題（算数 or 二次関数など）を生成し `~/.openclaw/workspace/images/math-quiz.png` に保存
-4. WebUI に戻り新しいセッションを開始。モデルはデフォルト（DeepSeek-V3 で十分、OCR が入るので VL は不要）のまま、プロンプト：「画像は /path/to/math-quiz.png。まず `read` で ~/.openclaw/workspace/skills/paddleocr-doc-parsing/SKILL.md、次に `exec` で `parse-document.mjs` を走らせ markdown を取得、各問題の正答を返して」
-5. agent は 60〜90 秒で `read → read → exec → 最終答案` のループを回す。算数なら `70 / 37 / 84 / 18`、二次関数 `y = x² − 4x + 3` なら `頂点 (2, -1)`、`x=5 のとき y=8` を LaTeX 付きの手順で返す
+3. `ernie-image` で手書き風の数学問題（算数 or 二次関数など）を生成し `~/.openclaw/workspace/images/math-quiz-1.png` に保存
+4. WebUI に戻り新しいセッションを開始。モデルはデフォルト（DeepSeek-V3 / qianfan-code-latest など純テキストで OK、OCR を挟むので VL 不要）のまま、人間らしく一言：**`OCR 一下 workspace/images 里的数学题并给出正确答案。`** スキル名・スクリプトパス・ファイル名は書かない
+5. agent は 60〜90 秒で自律実行：`exec ls` でファイル検出 → `exec parse-document.mjs`（OCR スキルのスクリプトを skill の `description` から発見）→ 正解を返す。算数は `70 / 37 / 84 / 18`、二次関数 `y = x² − 4x + 3` なら `頂点 (2, -1)` と `x=5 のとき y=8` を LaTeX 付きで
 
-> ⚠️ OpenClaw の `read` ツールは **vision ツールではない** — テキストのみ返す。PaddleOCR を挟む理由はここで、画像を構造化 markdown に変換してこそテキスト LLM で推論できる。画像を添付だけして「解いて」と言うと agent は偽のパスに対する `read` で ENOENT エラーを踏んで諦める。スキル名・スクリプト名・画像パスは明示的に書くこと。
+> ⚠️ シンプルなプロンプトにするのは **スキルが実際に動く事を証明する** ため。「まず SKILL.md を read、次に parse-document.mjs を exec」と手取り足取り書いたら、それは人間がオーケストレーションしているだけで、スキルが自律的にマッチしている証明にならない。スキルを有効化 → 普通の中国語で投げる → agent がマッチするツールを自ら選ぶ、が本当のテスト。
 
 ## なぜこの設計か
 
