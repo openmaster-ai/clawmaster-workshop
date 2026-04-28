@@ -48,14 +48,14 @@ Lab 只提供**举办地所在地区的语言**版本 `README.md`（如深圳场
 ### ③ Save（记忆）
 - [powermem-takeover-file-memory](./tasks/save/powermem-takeover-file-memory/README_CN.md) — 让 PowerMem 接管 OpenClaw 的文件式记忆：同步桥接 → 一键导入 `MEMORY.md` → 语义召回对比
 
+### ④ Apply（使用）
+- [math-quiz-vision-webui](./tasks/apply/math-quiz-vision-webui/README_CN.md) — 从概览页跳进 OpenClaw WebUI，配好 PaddleOCR，让 agent 自己 OCR 手写数学题再给出正确答案（算术 + 二次函数两个样本）
+
 ### ⑤ Build（构建）
 - [ernie-image-illustrated-article](./tasks/build/ernie-image-illustrated-article/README_CN.md) — 启用 `content-draft` + `ernie-image`，把 LangChain DeepAgents 文档转成带配图的公众号草稿
 
 ### ⑥ Guard（安全）
 - [skillguard-scan-compare](./tasks/guard/skillguard-scan-compare/README_CN.md) — 在技能页分别扫一条干净（`linkedin-content` · A）和一条有风险（`baoyu-url-to-markdown` · C · 7 findings）的技能，看 SkillGuard 看的是什么
-
-### ④ Apply
-即将上线，随着 Lab 活动陆续沉淀。
 
 ## 贡献新任务
 
