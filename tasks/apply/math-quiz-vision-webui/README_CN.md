@@ -205,12 +205,3 @@ openclaw cron list 2>&1 | head -2                     # 不该报 pairing requir
 这也是为什么 Apply 章节把 OCR 作为主线：它是「把不可靠的视觉输入挡住的那层」。
 
 **Q：agent 跑到第 3 遍了还在读 SKILL.md** → 上下文里有旧消息把它绕进去了。新建 session（URL `&session=agent:main:<fresh-key>`），或者提示词里加一句「你已经知道 paddleocr-doc-parsing 怎么用，直接 exec 脚本就行」。
-
----
-
-## 后续玩法
-
-- **接渠道**：配 Feishu 机器人后，把 `agent:channel:feishu:<group>` 作为 session key，用户把照片发群里 bot 回答案。参考 [wizard-ernie-glm](../../setup/wizard-ernie-glm/README_CN.md) 的渠道配置
-- **多语种**：prompt 加一句「答案用英文或日文返回」，DeepSeek-V3 直接切换，OCR 不受影响
-- **PDF 批量**：`parse-document.mjs` 默认 `--file-type image`，PDF 要显式加 `--file-type pdf`，适合整本试卷扫描件
-- **SkillGuard 复核**：在 [skillguard-scan-compare](../../guard/skillguard-scan-compare/README_CN.md) 里扫一下刚装的 `paddleocr-doc-parsing`，确认它不会在提示词注入或权限最小化上踩坑
