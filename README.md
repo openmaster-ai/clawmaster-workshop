@@ -7,9 +7,21 @@
 
 <p align="center"><strong>龙虾管理大师 · 工作坊</strong></p>
 
-面向真实场景的 ClawMaster + OpenClaw 学习仓库，内含可动手跑通的实验（Lab）与任务（Task）。
+<p align="center">
+  <a href="https://github.com/openmaster-ai/clawmaster"><img src="https://img.shields.io/badge/%F0%9F%A6%9E%20Main%20repo-ClawMaster-111111?style=for-the-badge" alt="Main repo: ClawMaster" /></a>
+  <img src="https://img.shields.io/badge/You%20are%20here-Workshop-0A7EA4?style=for-the-badge" alt="You are here: Workshop" />
+</p>
 
-> 目前首场线下活动在**中国深圳**举办，仓库主文档只保留中文。若后续排期到日本或海外站点，再补 `README_JP.md` / `README.md`（英文）等副本。
+<p align="center">
+  <a href="https://github.com/openmaster-ai/clawmaster/releases"><img src="https://img.shields.io/github/v/release/openmaster-ai/clawmaster?label=Tracks%20ClawMaster&color=F5A623&style=for-the-badge" alt="Tracks ClawMaster latest release" /></a>
+  <a href="https://github.com/openmaster-ai/clawmaster/milestone/1"><img src="https://img.shields.io/badge/Next%20milestone-v0.4.0-6f42c1?style=for-the-badge" alt="Next milestone: v0.4.0" /></a>
+</p>
+
+面向真实场景的 ClawMaster + OpenClaw 学习仓库，内含可动手跑通的实验（Lab）与任务（Task）。主仓在 [openmaster-ai/clawmaster](https://github.com/openmaster-ai/clawmaster)；本仓是配套的动手教程。
+
+> 🌐 English：[README_EN.md](./README_EN.md) · 日本語：[README_JP.md](./README_JP.md)
+>
+> 首场线下活动在**中国深圳**举办，默认文档语言是中文；EN / JP 版用于参考排期和检索任务索引。
 
 ## 仓库结构
 
@@ -47,6 +59,7 @@ Lab 只提供**举办地所在地区的语言**版本 `README.md`（如深圳场
 
 ### ③ Save（记忆）
 - [powermem-takeover-file-memory](./tasks/save/powermem-takeover-file-memory/README_CN.md) — 让 PowerMem 接管 OpenClaw 的文件式记忆：同步桥接 → 一键导入 `MEMORY.md` → 语义召回对比
+- [cron-package-downloads-tracker](./tasks/save/cron-package-downloads-tracker/README_CN.md) — 把 PowerMem 当时序存储用：`package-download-tracker` cron 每周抓 npm / PyPI 下载量，观测写进 PowerMem 给下周跑的自己当基线
 
 ### ④ Apply（使用）
 - [math-quiz-vision-webui](./tasks/apply/math-quiz-vision-webui/README_CN.md) — 从概览页跳进 OpenClaw WebUI，配好 PaddleOCR，让 agent 自己 OCR 手写数学题再给出正确答案（算术 + 二次函数两个样本）
