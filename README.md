@@ -12,6 +12,11 @@
   <img src="https://img.shields.io/badge/You%20are%20here-Workshop-0A7EA4?style=for-the-badge" alt="You are here: Workshop" />
 </p>
 
+<p align="center">
+  <a href="https://github.com/openmaster-ai/clawmaster/releases"><img src="https://img.shields.io/github/v/release/openmaster-ai/clawmaster?label=Tracks%20ClawMaster&color=F5A623&style=for-the-badge" alt="Tracks ClawMaster latest release" /></a>
+  <a href="https://github.com/openmaster-ai/clawmaster/milestone/1"><img src="https://img.shields.io/badge/Next%20milestone-v0.4.0-6f42c1?style=for-the-badge" alt="Next milestone: v0.4.0" /></a>
+</p>
+
 面向真实场景的 ClawMaster + OpenClaw 学习仓库，内含可动手跑通的实验（Lab）与任务（Task）。主仓在 [openmaster-ai/clawmaster](https://github.com/openmaster-ai/clawmaster)；本仓是配套的动手教程。
 
 > 🌐 English：[README_EN.md](./README_EN.md) · 日本語：[README_JP.md](./README_JP.md)
