@@ -7,7 +7,12 @@
 
 <p align="center"><strong>ClawMaster · ワークショップ</strong></p>
 
-ClawMaster + OpenClaw の実運用シナリオで手を動かす Lab（実験）と Task（タスク）を集めた学習リポジトリ。
+<p align="center">
+  <a href="https://github.com/openmaster-ai/clawmaster"><img src="https://img.shields.io/badge/%F0%9F%A6%9E%20Main%20repo-ClawMaster-111111?style=for-the-badge" alt="Main repo: ClawMaster" /></a>
+  <img src="https://img.shields.io/badge/You%20are%20here-Workshop-0A7EA4?style=for-the-badge" alt="You are here: Workshop" />
+</p>
+
+ClawMaster + OpenClaw の実運用シナリオで手を動かす Lab（実験）と Task（タスク）を集めた学習リポジトリ。メインリポジトリは [openmaster-ai/clawmaster](https://github.com/openmaster-ai/clawmaster)、こちらは手を動かす副読本です。
 
 > 🌐 中文（デフォルト）：[README.md](./README.md) · English：[README_EN.md](./README_EN.md)
 >

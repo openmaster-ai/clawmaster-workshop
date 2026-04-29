@@ -7,7 +7,12 @@
 
 <p align="center"><strong>龙虾管理大师 · 工作坊</strong></p>
 
-面向真实场景的 ClawMaster + OpenClaw 学习仓库，内含可动手跑通的实验（Lab）与任务（Task）。
+<p align="center">
+  <a href="https://github.com/openmaster-ai/clawmaster"><img src="https://img.shields.io/badge/%F0%9F%A6%9E%20Main%20repo-ClawMaster-111111?style=for-the-badge" alt="Main repo: ClawMaster" /></a>
+  <img src="https://img.shields.io/badge/You%20are%20here-Workshop-0A7EA4?style=for-the-badge" alt="You are here: Workshop" />
+</p>
+
+面向真实场景的 ClawMaster + OpenClaw 学习仓库，内含可动手跑通的实验（Lab）与任务（Task）。主仓在 [openmaster-ai/clawmaster](https://github.com/openmaster-ai/clawmaster)；本仓是配套的动手教程。
 
 > 🌐 English：[README_EN.md](./README_EN.md) · 日本語：[README_JP.md](./README_JP.md)
 >

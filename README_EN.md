@@ -7,7 +7,12 @@
 
 <p align="center"><strong>ClawMaster · Workshop</strong></p>
 
-A learning repo for ClawMaster + OpenClaw, full of hands-on Labs and Tasks grounded in real scenarios.
+<p align="center">
+  <a href="https://github.com/openmaster-ai/clawmaster"><img src="https://img.shields.io/badge/%F0%9F%A6%9E%20Main%20repo-ClawMaster-111111?style=for-the-badge" alt="Main repo: ClawMaster" /></a>
+  <img src="https://img.shields.io/badge/You%20are%20here-Workshop-0A7EA4?style=for-the-badge" alt="You are here: Workshop" />
+</p>
+
+A learning repo for ClawMaster + OpenClaw, full of hands-on Labs and Tasks grounded in real scenarios. The main repo lives at [openmaster-ai/clawmaster](https://github.com/openmaster-ai/clawmaster); this one ships the hands-on companion.
 
 > 🌐 中文（默认）：[README.md](./README.md) · 日本語：[README_JP.md](./README_JP.md)
 >
