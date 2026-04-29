@@ -9,7 +9,9 @@
 
 面向真实场景的 ClawMaster + OpenClaw 学习仓库，内含可动手跑通的实验（Lab）与任务（Task）。
 
-> 目前首场线下活动在**中国深圳**举办，仓库主文档只保留中文。若后续排期到日本或海外站点，再补 `README_JP.md` / `README.md`（英文）等副本。
+> 🌐 English：[README_EN.md](./README_EN.md) · 日本語：[README_JP.md](./README_JP.md)
+>
+> 首场线下活动在**中国深圳**举办，默认文档语言是中文；EN / JP 版用于参考排期和检索任务索引。
 
 ## 仓库结构
 
