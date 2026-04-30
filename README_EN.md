@@ -53,6 +53,7 @@ Labs ship a single `README.md` **in the host-location language** (Shenzhen = zh,
 
 ### ① Setup
 - [wizard-ernie-glm](./tasks/setup/wizard-ernie-glm/) — configure ERNIE + GLM through the setup wizard and pick a default model
+- [release-aware-upgrade](./tasks/setup/release-aware-upgrade/) — an in-app banner announces new ClawMaster releases; jump to Settings to read the notes and one-click download the right installer for your OS
 
 ### ② Observe
 - [cron-cost-digest](./tasks/observe/cron-cost-digest/) — install ClawProbe, one-click the Observe page's *Daily digest* preset into a cron, then **Run now** to close the Observe × Cron loop
