@@ -1,39 +1,41 @@
-# タスク：ClawMaster の新バージョンを検知してインストールする
+# タスク：新バージョンを見つけて ClawMaster を更新する
 
 **能力領域**：Setup（コア能力 #1）
 **所要時間**：~5 分
 **難易度**：入門（[wizard-ernie-glm](../wizard-ernie-glm/) の後）
 
-> v0.4.0 から、ClawMaster は自分自身の新リリースを能動的に検出します。上部バナー → 設定ページの **ClawMaster Releases** セクションがリリースノートをレンダリング → **インストーラーを開く** ボタンが `navigator.platform` を見て OS 別アセットを自動選択。主ソースは GitHub Releases、フォールバックは npm メタデータ（設定済みの npm ミラーを尊重）。
+> ClawMaster に新バージョンがリリースされると、アプリ上部にオレンジのバナーが表示されます。ワンクリックで設定ページが開き、リリースノートを読みながら OS に合ったインストーラーをその場でダウンロードできます。GitHub につながらないネットワーク環境でもバージョン検知は動作し、インストーラーは自動で本機向けのものが選ばれます。
 
 > 🌐 本タスクは **中文優先** で執筆されました。完全版のウォークスルーは **[README_CN.md](./README_CN.md)** にあります。English stub：[README.md](./README.md)
 
 ## 主要フレーム
 
 ![](./images/01-banner.png)
-*ダッシュボード上部のアップデートバナー。*
+*新リリース検知時、ダッシュボード上部に表示されるオレンジのアップデートバナー。*
 
 ![](./images/02-release-section.png)
-*設定ページの ClawMaster Releases セクション、アップデート利用可能な状態。*
+*設定ページの ClawMaster Releases セクション：現在バージョン / 最新バージョンのカード、オレンジの "アップデート利用可能" インジケーター、レンダリングされたリリースノート（見出し・箇条書き・コードブロック）。*
 
 ![](./images/04-npm-fallback.png)
-*GitHub が届かないときの npm フォールバック。*
+*GitHub に届かないときも新バージョンを検知できる（npm 経由）。ソース表示がフォールバック表記に切り替わり、リリースノートの詳細はリリースページへ誘導。*
 
 ![](./images/05-up-to-date.png)
-*最新状態（対照）。*
+*最新状態：両バージョンカードが一致、オレンジの代わりに緑の "最新版です" インジケーター。*
 
 ## TL;DR
 
-1. 上部バーに「**ClawMaster v{version} のアップデートが利用可能です**」のオレンジバナーが出る → **アップデートを表示** をクリック
-2. **設定 → ClawMaster Releases** にジャンプ。GitHub ソースならセクションはリリース本文を Markdown としてレンダリング（見出し・箇条書き・コードブロック）
-3. **インストーラードロップダウンはない。** `selectInstallerAsset(latestRelease, navigator.platform)` が自動で 1 つのアセットを選択（macOS → `.dmg`、Windows → `.msi`、Linux → `.AppImage`）。**インストーラーを開く** でそのアセットの GitHub URL を開く。横の **変更履歴** はリリースの `html_url` へ
-4. 却下は **バージョン単位で localStorage 永続化**（キー接頭辞：`clawmaster-release-dismissed:`）。次の新リリースが出るまでバナーは再表示されない
+1. ClawMaster を開くと、上部に「**ClawMaster v{version} のアップデートが利用可能です**」のオレンジバナー → **アップデートを表示** をクリック
+2. 設定ページの **ClawMaster Releases** セクションに移動
+3. リリースノートが Markdown としてレンダリングされて表示（見出し・箇条書き・コードブロック — 生の `#` や バッククォートではなく）
+4. **インストーラーを開く** で OS に合ったファイルをダウンロード、または **変更履歴** で GitHub のリリースページを閲覧
+5. バナーを閉じるとそのバージョンのみ非表示、次の新リリースで再表示
 
-## 主要な仕組み
+## このタスクで得られるもの
 
-- **現在バージョン**：Vite の `define` が `package.json#version` を `__CLAWMASTER_VERSION__` として注入、`src/lib/appVersion.ts` で `CLAWMASTER_VERSION` として読み出す
-- **最新バージョン**：まず `GET https://api.github.com/repos/openmaster-ai/clawmaster/releases?per_page=10`（3 秒 AbortController 付き）、タイムアウト/失敗時はバックエンド `/api/npm/clawmaster-versions`（デスクトップは Tauri `list_clawmaster_npm_versions` コマンド）へフォールバック
-- **npm ミラー**：フォールバック経路は Settings の npm プロキシ設定を尊重するので、中国本土など GitHub が届かない環境でも検知できる
-- **Markdown**：レンダリング前にサニタイズされ、`<script>` や外部画像は除去。プレビューは 700 文字まで
+- **自発的な通知** — アプリがバージョンチェックしてバナーを自動表示
+- **その場でリリースノート** — ClawMaster を離れずに変更内容を確認
+- **プラットフォーム対応ダウンロード** — macOS は `.dmg`、Windows は `.msi`、Linux は `.AppImage`、ワンクリックで正しいファイル
+- **ミラー対応の検知** — GitHub が遅い / 届かない環境でも、設定の npm ミラーを尊重して動作
+- **バージョン単位の却下** — 同じバージョンだけ非表示、新しいリリースは再通知
 
-完全版の手順・検証コマンド・FAQ（dev モードでバナーが残る／ノートが生 Markdown で出る／Tauri の shell `open` プラグイン allowlist／`navigator.platform` が空文字／ミラーが遅い 等）は [README_CN.md](./README_CN.md) を参照してください。
+完全版の手順・最新状態との対照・FAQ（アップグレード後にバナーが残る／ノートが生 Markdown で表示される／インストーラーリンクがブロックされる／ミラーが遅い 等）は [README_CN.md](./README_CN.md) を参照してください。

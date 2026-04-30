@@ -53,7 +53,7 @@ Lab 只提供**举办地所在地区的语言**版本 `README.md`（如深圳场
 
 ### ① Setup（初始化）
 - [wizard-ernie-glm](./tasks/setup/wizard-ernie-glm/README_CN.md) — 通过设置向导配置 ERNIE + GLM，选定默认模型
-- [release-aware-upgrade](./tasks/setup/release-aware-upgrade/README_CN.md) — ClawMaster v0.4.0 新增的版本发布通知：顶栏横幅 → 设置页「ClawMaster 版本发布」section 渲染 release notes，按平台自动选安装包；GitHub → npm 镜像回退
+- [release-aware-upgrade](./tasks/setup/release-aware-upgrade/README_CN.md) — 顶栏横幅自动提醒 ClawMaster 新版本，跳到设置页读版本更新说明，一键下载适合本机系统的安装包
 
 ### ② Observe（可观测）
 - [cron-cost-digest](./tasks/observe/cron-cost-digest/README_CN.md) — 装好 ClawProbe，用可观测页「日报摘要」模板一键生成成本摘要 cron，**立即运行** 看闭环
