@@ -22,8 +22,17 @@
 ![](./images/05-query.png)
 *Ask Wiki: answer synthesized from the ingested pages plus a "save as synthesis page" offer, which turns a one-off Q&A into a reusable page.*
 
-![](./images/08-webui-blog.png)
-*OpenClaw WebUI — end-user prompt: "draft a 300-word WeChat post about why LLM Wiki beats RAG for long-term knowledge work." The user didn't mention "wiki" and didn't paste any source links, yet phrases like "extract concepts, flag contradictions, build cross-references" come straight from the `Karpathy 的 LLM Wiki` page, and the tagline "RAG is good at finding things, Wiki is good at growing them" is synthesized from `RAG 与 Wiki 的对比`. Injection is automatic via the PowerMem plugin's `before_agent_start` hook.*
+![](./images/08-overview-jump.png)
+*Starting point — the **Open OpenClaw WebUI** button (amber-highlighted) in ClawMaster's Overview page launches the agent chat in a new tab with the gateway token already attached.*
+
+![](./images/09-webui-blog.png)
+*End-user prompt in WebUI: "draft a 300-word WeChat post about why LLM Wiki beats RAG for long-term knowledge work." The user didn't mention "wiki" and didn't paste any source links, yet phrases like "extract concepts, flag contradictions, build cross-references" come straight from the `Karpathy 的 LLM Wiki` page, and the tagline "RAG is good at finding things, Wiki is good at growing them" is synthesized from `RAG 与 Wiki 的对比`. Injection is automatic via the PowerMem plugin's `before_agent_start` hook.*
+
+![](./images/10-webui-scenarios.png)
+*Follow-up in the same session: "list three typical scenarios for LLM Wiki, 50 chars each." The agent produces three scenarios — personal / team / product docs — each anchored in the compiled Wiki pages, continuing the thread without the user reintroducing any background.*
+
+![](./images/11-webui-recall.png)
+*Recall-style question in a fresh session: "did we discuss how EVOLVE solves the unmaintained-knowledge-base problem?" The agent opens with "Yes, the relevant-memories just injected this" and recites the three mechanisms (Ebbinghaus decay / auto-refresh / feedback-driven) verbatim from the `EVOLVE 自维护循环` page.*
 
 ## TL;DR
 
