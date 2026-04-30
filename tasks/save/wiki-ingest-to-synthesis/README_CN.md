@@ -2,7 +2,7 @@
 
 **能力域**：Save · **用时**：~10 min · **难度**：入门（建议先做 [wizard-ernie-glm](../../setup/wizard-ernie-glm/README_CN.md)）
 
-> 在 ClawMaster 把 3 篇相关笔记写入 Wiki → 看 Wiki 自动打上新鲜度、生命周期、链接标签 → 基于已沉淀内容提问 → 把好答案一键保存成综合页 → 跑一次进化，让 Wiki 检查自己并记录健康信号。**然后跨到 OpenClaw WebUI**，让 agent 在聊天里答一个关于 Wiki 内容的问题，看它直接引用你刚写入的页面。整个过程展示：**来源是用户投喂的，Wiki 是系统编译和维护的；在 ClawMaster 里沉淀，在 OpenClaw agent 里被用到** —— 不需要手动归档、打标签或重读。
+> 在 ClawMaster 把 3 篇相关笔记写入 Wiki → 看 Wiki 自动打上新鲜度、生命周期、链接标签 → 基于已沉淀内容提问 → 把好答案一键保存成综合页 → 跑一次进化，让 Wiki 检查自己并记录健康信号。**然后跨到 OpenClaw WebUI**，像平时那样让 agent 「帮我写一篇公众号草稿」——你没提 wiki、没贴链接，但 agent 写出来的内容显然带着你沉淀过的观点。整个过程展示：**来源是用户投喂的，Wiki 是系统编译和维护的；在 ClawMaster 里沉淀一次，在 OpenClaw 日常聊天里自然被用到** —— 不需要手动归档、打标签或每次都重新贴素材给 agent。
 
 > 🌐 English：[README.md](./README.md) · 日本語：[README_JP.md](./README_JP.md)
 
@@ -19,7 +19,7 @@
 3. 页面卡亮起 **新鲜 / 刚写入 / 写入来源** 三个信号标签
 4. 「**询问 Wiki**」里提一个跨来源的问题，看 Wiki 把相关页列出来，然后点「**保存综合页**」把答案固化
 5. 右下角点「**运行进化**」—— 看「Wiki 已经替你完成的工作」这个卡片块的数字往上跳
-6. 从 ClawMaster **概览**页跳到 **OpenClaw WebUI**，问一句「我们的 wiki 里关于 XX 的内容是什么？」，看 agent 把 Wiki 页面按标题引用出来
+6. 从 ClawMaster **概览**页跳到 **OpenClaw WebUI**，像平时一样发一句「**帮我写一篇 300 字的公众号草稿，主题是 XX**」——agent 会自动把 Wiki 里相关的页面拉进上下文，写出来的稿子里带着你沉淀过的观点
 
 ## 主要关键帧
 
@@ -168,31 +168,39 @@ LLM Wiki 相比 RAG 的核心优势是什么？
 - **自动维护页** 从 3 涨到 4（把综合页也纳入了）
 - 如果 Wiki 发现页之间没相互链接 / 重复主题，**健康信号** 会 > 0
 
-## 第 7 步：在 OpenClaw WebUI 里调用同一份 Wiki
+## 第 7 步：在 OpenClaw WebUI 里让 agent 基于 Wiki 写内容
 
-前面六步展示的是**在 ClawMaster 里维护 Wiki**。最后一步跨一次前端：在 OpenClaw WebUI（agent 聊天界面）里问 agent 一个问题，看它把你刚写入的 Wiki 页面直接引用出来——**在 ClawMaster 里沉淀，在 OpenClaw 里被用到**，这是 Wiki 作为「共享知识层」的真正价值。
+前面六步展示的是**在 ClawMaster 里维护 Wiki**。最后一步跨一次前端：在 OpenClaw WebUI（agent 聊天界面）里像平时一样让 agent 帮你干活——**不用说"用 wiki 里的内容"，也不用贴页面链接**——Wiki 会在背后自动把相关页面端上桌。这是 Wiki 作为「共享知识层」的真正价值：**在 ClawMaster 里沉淀一次，在日常聊天里自然被用到**。
 
-**打开 WebUI**。在 ClawMaster 左侧 **概览** 页右上角点「**打开 OpenClaw WebUI**」，或直接访问 `http://127.0.0.1:18789/?token=<gateway token>`（token 在 `~/.openclaw/openclaw.json` 的 `gateway.auth.token`）。WebUI 的会话列表里新建一个会话，比如叫 `wiki-demo`。
+**打开 WebUI**。在 ClawMaster 左侧 **概览** 页右上角点「**打开 OpenClaw WebUI**」，或直接访问 `http://127.0.0.1:18789/?token=<gateway token>`（token 在 `~/.openclaw/openclaw.json` 的 `gateway.auth.token`）。在会话列表新建一个会话，比如 `wiki-blog-demo`。
 
-**发一个跨来源的问题**。不用带特殊指令，Wiki 召回对关键词敏感——像「wiki」「知识库」「我们知道什么」「根据已有资料」这类词会触发自动注入：
+**发一个自然的写作请求**（不提 wiki，不提"知识库"）：
 
 ```
-我们的 wiki 里关于 LLM Wiki 的内容是什么？请引用页面标题。
+帮我写一篇 300 字左右的微信公众号短文草稿，主题：为什么 LLM Wiki 比传统 RAG 更适合长期知识积累。要能直接发出去的语气，适当用短段落。
 ```
 
 回车发送。
 
-![](./images/08-webui-answer.png)
-*WebUI 里 agent 的回答：按编号列出刚才写入的四篇页面——`Karpathy 的 LLM Wiki`、`RAG 与 Wiki 的对比`、`EVOLVE 自维护循环`，以及第 5 步保存的 `synthesis-llm-rag` 综合页。右上角模型标签显示使用的是 `qianfan-code-latest`。*
+![](./images/08-webui-blog.png)
+*Agent 生成的公众号草稿。正文里出现的"提取关键概念"、"标记与其他来源的矛盾点"、"建立交叉引用"直接来自你第 2 步写进 Wiki 的 `Karpathy 的 LLM Wiki` 页；"RAG 擅长找东西，Wiki 擅长长东西"是基于 `RAG 与 Wiki 的对比` 页再综合出的一句标语。*
 
-幕后发生的是：
+你没有在提示里提到"wiki"或"知识库"，也没有贴任何页面链接。但 agent 显然在用你沉淀的内容——**这就是自动召回**：
 
 1. PowerMem 插件的 `before_agent_start` 钩子读取这条消息
-2. 检测到 wiki 相关关键词，把 Wiki 里匹配的页面打包成 `<relevant-wiki>` 段注入到 agent 的系统上下文
-3. 系统指令告诉 agent「先查 `<relevant-wiki>`，如果用到要显式说明用了哪些页面」
-4. Agent 基于这些页面构造回答，自动标出页面标题作为引用
+2. 检测到话题关键词（LLM Wiki / RAG / 知识积累），把 Wiki 里匹配的页面打包成 `<relevant-wiki>` 段注入到 agent 的系统上下文
+3. 系统指令告诉 agent：碰到 wiki 话题优先看 `<relevant-wiki>`
+4. Agent 直接基于这些页面写稿，得到的是**你自己沉淀过的观点**的再表达，而不是互联网上随机某篇文章的味道
 
-**关于 URL 消息**。如果你在 WebUI 里直接发一个裸 URL（比如 `https://gist.github.com/...`），插件会在消息通过**渠道**（Telegram / Discord 等）投递时拦截，弹出三选项提示（写入 Wiki / 仅摘要一次 / 仅本轮使用）。走 WebUI 聊天直连的场景下，agent 通常会直接基于常识回答而不触发这个提示——如果需要把 URL 固化进 Wiki，更靠谱的做法还是回到 ClawMaster 的「写入来源」卡按第 2 步的流程点「写入 URL」。
+这就完成了**端到端的价值**：你一次性投喂三篇笔记 → Wiki 把它们编译成可复用的页面 → 下次你让 agent「写一篇公众号」，它拿出的是**你已经沉淀过、综合过、取过立场**的内容，而不是每次都从零开始胡诌。
+
+**其它自然场景**。同一个 WebUI 会话里还可以：
+
+- 「**帮我写一段 twitter 短贴**，推广 LLM Wiki 这个概念」 — agent 会拿 Wiki 里的综合页 + 对比页作为素材
+- 「**基于我们积累的资料**，给我列三个使用 LLM Wiki 的典型场景」 — wiki 关键词触发召回，agent 列清单并标注哪条来自哪页
+- 「**这个问题我们讨论过吗？**」「**之前存过这个话题吗？**」 — 自然的回忆式问题也会触发召回，agent 会报页面列表
+
+**关于"帮我把这篇文章存下来"类请求**。你在 WebUI 里发一条裸 URL + "帮我存下来"，agent 会在对话层面响应（读一读、给个摘要），但它**不会**真的写入 Wiki——因为目前没有 `wiki_ingest` 这个 agent 工具。真正要把一条 URL 固化进 Wiki，有两条确定路径：① 回到 ClawMaster 的「写入来源」卡按第 2 步的流程点「写入 URL」；② 通过已配置的**外部渠道**（Telegram / Discord 等）发给 agent，渠道投递路径会触发三选项提示（写入 Wiki / 仅摘要一次 / 仅本轮使用）。
 
 ---
 
@@ -204,10 +212,10 @@ LLM Wiki 相比 RAG 的核心优势是什么？
 | 提一个跨来源问题 | 问问题 | 检索相关页 → 合成答案 → 标引用 |
 | 点「保存综合页」 | 同意沉淀 | 新建 `synthesis/` 页 → 填元数据 → 反向链接回原来源 |
 | 点「运行进化」 | 触发维护 | 重算新鲜度 → 检查来源可达性 → 记录进化证据 |
-| 在 OpenClaw WebUI 里发问 | 正常聊天 | 自动注入 `<relevant-wiki>` 上下文 → agent 按页面标题引用 → 无需你手动贴内容 |
+| 在 OpenClaw WebUI 里说「帮我写篇公众号」 | 自然聊天，不提 wiki | 自动注入 `<relevant-wiki>` 上下文 → agent 基于沉淀内容写稿 → 不用手动贴素材 |
 
-**你的手动工作量**：写 3 篇笔记 + 问 1 个问题 + 点 2 下按钮 + 在 WebUI 里问一次。
-**Wiki 替你做的工作**：分类、打标签、交叉引用、保存综合页、周期性维护、健康自检、把沉淀的内容在 agent 回答时自动端上桌。
+**你的手动工作量**：写 3 篇笔记 + 问 1 个问题 + 点 2 下按钮 + 在 WebUI 里写一句自然请求。
+**Wiki 替你做的工作**：分类、打标签、交叉引用、保存综合页、周期性维护、健康自检、**在 agent 日常回答时自动端上已沉淀的观点**。
 
 ---
 
@@ -234,8 +242,11 @@ LLM Wiki 相比 RAG 的核心优势是什么？
 **Q：Wiki 文件实际存在哪？**
 → 正文 Markdown 在 `~/.openclaw/wiki/pages/`，元数据（新鲜度、冲突）在 `~/.openclaw/wiki/.meta/`。可以用 Obsidian 直接打开这个目录，Wiki 也会把手动编辑同步回 PowerMem。
 
-**Q：在 OpenClaw WebUI 里 agent 没有引用我的 Wiki 页面。**
-→ 两个常见原因：① 问题里没有 Wiki 关键词（试试带上「wiki」「知识库」「我们知道什么」「根据已有资料」之类）；② 新鲜度太低或内容跟问题不够相关，自动召回的阈值没过。可以把问题说得更具体、点名页面标题；或者先在 ClawMaster Wiki 里跑一遍「运行进化」让召回评分更新。
+**Q：在 WebUI 写出来的内容看不出用了 Wiki，感觉是 agent 自己编的。**
+→ 两个常见原因：① 请求的主题词跟 Wiki 里沉淀的页面词汇离得远，召回的相关性分数没过阈值。试着把关键词跟 Wiki 里出现过的名词对齐（比如把"知识管理"换成"LLM Wiki"、"RAG"、"持久化知识库"之类你 Wiki 里真出现过的词）。② 模型本身不太会引用上下文——换个更擅长守系统指令的模型（顶部下拉里选 DeepSeek V3 或 qianfan-code-latest 试试），再让它「基于已沉淀的资料」写一遍，引用感会明显。
+
+**Q：我在 WebUI 里发 URL + "帮我存下来"，agent 说存好了但 Wiki 页面列表里没看到。**
+→ 目前 **agent 手里没有 `wiki_ingest` 工具**，"存到 Wiki" 对它来说只是对话层面的响应，不会真的写文件。要真正固化一条 URL，用两条确定路径：① 回到 ClawMaster Wiki 的「写入来源」卡填 URL + 点「写入 URL」；② 在外部渠道（Telegram / Discord 等）里发 URL，渠道投递会触发三选项提示。
 
 **Q：在 WebUI 发 URL 没看到三选项提示。**
 → 这个提示走的是**渠道消息**（Telegram / Discord / Slack 等）投递时的 `before_dispatch` 钩子，不是 WebUI 聊天直连的路径。要在 ClawMaster 里用三选项的话，用「写入来源」卡填 URL；要在外部渠道里用，配置一个渠道账号再在那边发 URL。
