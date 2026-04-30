@@ -61,6 +61,7 @@ Labs ship a single `README.md` **in the host-location language** (Shenzhen = zh,
 ### ③ Save
 - [powermem-takeover-file-memory](./tasks/save/powermem-takeover-file-memory/) — have PowerMem take over OpenClaw's file-based memory: bridge sync → one-click import of `MEMORY.md` → side-by-side semantic recall
 - [cron-package-downloads-tracker](./tasks/save/cron-package-downloads-tracker/) — treat PowerMem as a time-series store: the `package-download-tracker` cron fetches weekly npm / PyPI download counts, writes observations to PowerMem, and next week's run reads them as baseline
+- [wiki-ingest-to-synthesis](./tasks/save/wiki-ingest-to-synthesis/) — drop a few Markdown notes into Wiki, watch it auto-tag and cross-link them, ask a cross-source question and one-click persist the answer as a synthesis page, then run Evolve to let Wiki check itself
 
 ### ④ Apply
 - [math-quiz-vision-webui](./tasks/apply/math-quiz-vision-webui/) — jump from Overview into the OpenClaw WebUI, wire up PaddleOCR, let the agent OCR a handwritten math quiz and compute the answers (arithmetic + quadratic samples)

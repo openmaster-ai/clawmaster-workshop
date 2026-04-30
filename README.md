@@ -61,6 +61,7 @@ Lab 只提供**举办地所在地区的语言**版本 `README.md`（如深圳场
 ### ③ Save（记忆）
 - [powermem-takeover-file-memory](./tasks/save/powermem-takeover-file-memory/README_CN.md) — 让 PowerMem 接管 OpenClaw 的文件式记忆：同步桥接 → 一键导入 `MEMORY.md` → 语义召回对比
 - [cron-package-downloads-tracker](./tasks/save/cron-package-downloads-tracker/README_CN.md) — 把 PowerMem 当时序存储用：`package-download-tracker` cron 每周抓 npm / PyPI 下载量，观测写进 PowerMem 给下周跑的自己当基线
+- [wiki-ingest-to-synthesis](./tasks/save/wiki-ingest-to-synthesis/README_CN.md) — 把几篇 Markdown 写进 Wiki，看它自动打标签、交叉引用，问一个跨来源问题后一键固化成综合页，跑一次进化让 Wiki 自我检查
 
 ### ④ Apply（使用）
 - [math-quiz-vision-webui](./tasks/apply/math-quiz-vision-webui/README_CN.md) — 从概览页跳进 OpenClaw WebUI，配好 PaddleOCR，让 agent 自己 OCR 手写数学题再给出正确答案（算术 + 二次函数两个样本）
